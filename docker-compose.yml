@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  rabbitmq:
+    image: rabbitmq:3.9-management
+    hostname: "rabbitmq"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+  
+  flask:
+    build:
+      context: server
+    hostname: "app.rest.com"
+    ports:
+     - "5000:5000"
+    volumes:
+     - ./server/pdfs:/user/src/app/pdfs
+
+  worker:
+    build:
+      context: worker
+    volumes:
+     - ./server/pdfs:/user/src/worker/pdfs
+  
